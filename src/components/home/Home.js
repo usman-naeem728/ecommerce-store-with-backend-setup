@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
-import './Home.css'
-import image from './imageslider.jpg';
-import image1 from './imageslider1.jpg';
-import image2 from './imageslider2.jpg';
+import './Home.css';
+import Navbar from '../navbar/Navbar';
+import image from '../assets/imageslider.jpg'
+import image1 from '../assets/imageslider1.jpg';
+import image2 from '../assets/imageslider2.jpg';
 
 
 const Home = () => {
@@ -119,7 +120,7 @@ const Home = () => {
 
     return (
         <>
-         
+         <Navbar/>
             <div className='hero-sec'>
                 <div className='hero-menu'>
                     <ul>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   return (
@@ -18,7 +19,7 @@ const Navbar = () => {
                         <li>Home</li>
                         <li>Contact</li>
                         <li>About</li>
-                        <li>Signup</li>
+                        <li><Link to={'signup'} onClick="window.location.reload()">Signup</Link></li>
                     </ul>
                 </div>
                 <div className='nav-icons'>
