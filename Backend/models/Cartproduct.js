@@ -26,4 +26,4 @@ const NotesSchema = new Schema({
 
 });
 
-module.exports = mongoose.model('product', NotesSchema);
+module.exports = mongoose.model('cartProduct', NotesSchema);

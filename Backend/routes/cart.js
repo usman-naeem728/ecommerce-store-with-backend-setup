@@ -1,17 +1,17 @@
 const express = require('express')
 const router = express.Router()
-const Product = require('../models/Product')
+const Product = require('../models/Cartproduct')
 const fetchUser = require('../middleware/fetchuser')
 const { body, validationResult } = require('express-validator')
 
-//Route1 get all notes
-router.get('/fetchallproducts', fetchUser, async (req, res) => {
+//Route1 get all products in cart
+router.get('/fetchallcartproducts', fetchUser, async (req, res) => {
     const product = await Product.find({ user: req.user.id });
     res.json(product)
 })
 
-//Router 2 adding notes
-router.post('/addproduct', fetchUser, [
+//Router 2 adding products in cart
+router.post('/addcartproduct', fetchUser, [
     body('productname'),
     body('price'),
     body('quantity')
@@ -34,24 +34,22 @@ router.post('/addproduct', fetchUser, [
 })
 
 
-// Route 3 : updateing exsiting note
-router.put('/updatenote/:id', fetchUser, async (req, res) => {
-    const { title, description, tag } = req.body;
+// Route 3 : updating quantity exsiting product in cart 
+router.put('/updatecartquantity/:id', fetchUser, async (req, res) => {
+    const { quantity } = req.body;
     try {
         // Create a newNote object
-        const newNote = {};
-        if (title) { newNote.title = title };
-        if (description) { newNote.description = description };
-        if (tag) { newNote.tag = tag };
+        const newCartpdt = {};
+        if (quantity) { newCartpdt.quantity = quantity };
 
-        // Find the note to be updated and update it
-        let note = await Notes.findById(req.params.id);
-        if (!note) { return res.status(404).send("Not Found") }
+        // Find the product to be updated and update it
+        let prodt = await Product.findById(req.params.id);
+        if (!prodt) { return res.status(404).send("Not Found") }
 
-        if (note.user.toString() !== req.user.id) {
+        if (prodt.user.toString() !== req.user.id) {
             return res.status(401).send("Not Allowed");
         }
-        note = await Notes.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true })
+        prodt = await Product.findByIdAndUpdate(req.params.id, { $set: newCartpdt }, { new: true })
         res.json({ note });
     } catch (error) {
         console.error(error.message);
@@ -59,21 +57,21 @@ router.put('/updatenote/:id', fetchUser, async (req, res) => {
     }
 })
 
-// Route 4 : deleteing exsiting note
-router.delete('/deletenote/:id', fetchUser, async (req, res) => {
+// Route 4 : deleteing product from cart
+router.delete('/deletecartproduct/:id', fetchUser, async (req, res) => {
 
     try {
 
         // Find the note to be updated and update it
-        let note = await Notes.findById(req.params.id);
-        if (!note) { return res.status(404).send("Not Found") }
+        let prodt = await Product.findById(req.params.id);
+        if (!prodt) { return res.status(404).send("Not Found") }
 
         // checking user own this note
-        if (note.user.toString() !== req.user.id) {
+        if (prodt.user.toString() !== req.user.id) {
             return res.status(401).send("Not Allowed");
         }
-        note = await Notes.findByIdAndDelete(req.params.id)
-        res.json({ "success": "note has been deleted successfully", "note": note });
+        prodt = await Product.findByIdAndDelete(req.params.id)
+        res.json({ "success": "Product has been deleted successfully", "Product": prodt });
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
