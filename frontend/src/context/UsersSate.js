@@ -124,7 +124,7 @@ const UserState = (props) => {
             },
         });
         console.log(response.json)
-        const newCartpdt2 = notes.filter((cartpdt) => { return cartpdt._id !== id })
+        const newCartpdt2 = cartpdt.filter((cartpdt) => { return cartpdt._id !== id })
         setCartpdt(newCartpdt2)
     }
 

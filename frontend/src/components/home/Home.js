@@ -1,12 +1,31 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
+import userContext from '../../context/userContext';
 import './Home.css';
 import Navbar from '../navbar/Navbar';
 import image from '../assets/imageslider.jpg'
 import image1 from '../assets/imageslider1.jpg';
 import image2 from '../assets/imageslider2.jpg';
+// import Modal from '../modal/modal';
 
 
 const Home = () => {
+    const context = useContext(userContext);
+    const { addCartpdt } = context;
+    const [modalDetails, setModalDetail] = useState({
+        productname: "",
+        price: 0
+    })
+    const [quantity, setQuantity] = useState(1);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+    // Handler function for the onChange event
+    const handleDropdownChange = (event) => {
+        // Update the state with the selected value
+        setQuantity(event.target.value);
+    };
+    //navbar dropdown
     const [isopenWdropsown, setIsopenWdropdown] = useState(false);
     const [isopenMdropsown, setIsopenMdropdown] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -18,8 +37,26 @@ const Home = () => {
         image1,
         image2
     ];
+    //navbar dropdown ends
 
-// code for product slider starts
+
+    const handleClick = () => {
+        addCartpdt(modalDetails.productname, modalDetails.price * quantity, quantity);
+        closeModal()
+    }
+
+
+    const openModal = (name, price) => {
+        setModalDetail({ productname: name, price: price })
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+
+    // code for product slider starts
     const wrapperRef = useRef(null);
     const carouselRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -29,7 +66,7 @@ const Home = () => {
     const [isAutoPlay, setIsAutoPlay] = useState(true);
 
     const firstCardWidth = carouselRef.current?.querySelector('.card')?.offsetWidth || 0;
-    const cardPerView = Math.round(carouselRef.current?.offsetWidth / firstCardWidth);
+
 
     const handleArrowButtonClick = (direction) => {
         carouselRef.current.scrollLeft += direction === 'left' ? -firstCardWidth : firstCardWidth;
@@ -76,25 +113,8 @@ const Home = () => {
         }
     };
 
-    useEffect(() => {
-        // Insert copies of the last few cards to the beginning of the carousel for infinite scrolling
-        const childrenArray = Array.from(carouselRef.current?.children || []);
-        childrenArray.slice(-cardPerView).reverse().forEach(card => {
-            carouselRef.current.insertAdjacentHTML('afterbegin', card.outerHTML);
-        });
 
-        // Insert copies of the first few cards to the end of the carousel for infinite scrolling
-        childrenArray.slice(0, cardPerView).forEach(card => {
-            carouselRef.current.insertAdjacentHTML('beforeend', card.outerHTML);
-        });
-
-        // Scroll the carousel to the appropriate position to hide the first few duplicate cards on Firefox
-        carouselRef.current.classList.add('no-transition');
-        carouselRef.current.scrollLeft = carouselRef.current.offsetWidth;
-        carouselRef.current.classList.remove('no-transition');
-    }, [cardPerView]);
-
-// code for prodcut slider ends 
+    // code for prodcut slider ends 
 
 
     const nextImage = () => {
@@ -120,7 +140,7 @@ const Home = () => {
 
     return (
         <>
-         <Navbar/>
+            <Navbar />
             <div className='hero-sec'>
                 <div className='hero-menu'>
                     <ul>
@@ -169,7 +189,42 @@ const Home = () => {
             </div>
 
             {/* hero section ends */}
+            <div>
+                {isModalOpen && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <span className="close-btn" onClick={closeModal}>
+                                &times;
+                            </span>
+                            {/* Content of your modal goes here */}
+                            <form>
+                                <label>
+                                    <b>PRODUCT:</b> {modalDetails.productname}
+                                </label>
+                                <br />
+                                <label>
+                                    <b>PRICE:</b> {modalDetails.price}
+                                </label>
+                                <br />
+                                <br />
+                                <label htmlFor="myDropdown">Quantity:</label>
+                                {/* Dropdown with onChange handler */}
+                                <select id="myDropdown" value={quantity} onChange={handleDropdownChange}>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
 
+                                {/* Display the selected value */}
+                                <p><b>TOTAL PRICE:</b> {quantity * modalDetails.price}</p>
+                                <br />
+                                <button type="submit" onClick={handleClick}>Add to Cart</button>
+
+                            </form>
+                        </div>
+                    </div>
+                )}
+            </div>
 
             <div className='productSlider'>
                 <div className='productHeading'>
@@ -182,11 +237,13 @@ const Home = () => {
                         onMouseDown={dragStart}
                         onMouseMove={dragging}
                         onMouseUp={dragStop}
-                        onScroll={infiniteScroll}>
+                        onScroll={infiniteScroll}
+                    >
                         <li className="card">
                             <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <h2>Blanche Pearson</h2>
-                            <button>Add to cart</button>
+                            <h2>Men’s shalwar kameez</h2>
+                            <h3>2000</h3>
+                            <button onClick={() => openModal("Men's shalwar kameez", 2000)} >Add to Cart</button>
                         </li>
                         <li className="card">
                             <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
@@ -203,7 +260,7 @@ const Home = () => {
                             <h2>James Khosravi</h2>
                             <button>Add to cart</button>
                         </li>
-                        <li className="card">
+                        {/* <li className="card">
                             <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
                             <h2>Kristina Zasiadko</h2>
                             <button>Add to cart</button>
@@ -212,7 +269,7 @@ const Home = () => {
                             <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
                             <h2>Donald Horton</h2>
                             <button>Add to cart</button>
-                        </li>
+                        </li> */}
                     </ul>
                     <i id="right" className="fa-solid fa-angle-right" onClick={() => handleArrowButtonClick('right')}></i>
                 </div>

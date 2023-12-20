@@ -12,12 +12,12 @@ const NotesSchema = new Schema({
         required: true
     },
     price: {
-        type: String,
+        type: Number,
         required: true
     },
     quantity: {
-        type: String,
-        default: 'general'
+        type: Number,
+        default: 1
     },
     date: {
         type: Date,
