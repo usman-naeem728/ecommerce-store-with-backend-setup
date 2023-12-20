@@ -39,9 +39,9 @@ const Home = () => {
     ];
     //navbar dropdown ends
 
-
+    //sending data to database
     const handleClick = () => {
-        addCartpdt(modalDetails.productname, modalDetails.price * quantity, quantity);
+        addCartpdt(modalDetails.productname, modalDetails.price, quantity);
         closeModal()
     }
 

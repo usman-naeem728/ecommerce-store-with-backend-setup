@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './cart.css'
+import userContext from '../../context/userContext'
 import Navbar from '../navbar/Navbar'
+import { useContext } from 'react'
 
 const Cart = () => {
+  const context = useContext(userContext)
+  const { cartpdt, getCartpdt, editNotes } = context;
+
+  useEffect(() => {
+    getCartpdt()
+  })
   return (
     <>
       <Navbar />
@@ -13,12 +21,16 @@ const Cart = () => {
           <th>Quantity</th>
           <th>Subtotal</th>
         </tr>
-        <tr>
-          <td>Monitor</td>
-          <td>10000</td>
-          <td>2</td>
-          <td>20000</td>
-        </tr>
+          {
+            cartpdt.map((product, i) => (
+              <tr key={i}>
+                <td>{product.productname}</td>
+                <td>{product.price}</td>
+                <td>{product.quantity}</td>
+                <td>{product.price * product.quantity}</td>
+              </tr>
+            ))
+          }
       </table>
     </>
   )
