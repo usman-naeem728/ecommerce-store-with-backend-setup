@@ -129,7 +129,7 @@ const UserState = (props) => {
     }
 
     return (
-        <userContext.Provider value={{ login, signup, getUser, userData, token, error,cartpdt, getCartpdt, deleteCartpdt, editCartpdtquantity, addCartpdt }}>
+        <userContext.Provider value={{ login, signup, getUser, userData, token, error, cartpdt, getCartpdt, deleteCartpdt, editCartpdtquantity, addCartpdt }}>
             {props.children}
         </userContext.Provider>
     )

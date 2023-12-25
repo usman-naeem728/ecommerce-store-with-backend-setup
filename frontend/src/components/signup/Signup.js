@@ -29,7 +29,7 @@ const Signup = () => {
       setIsLoading(false)
     }, 3000);
 
-    if (token !== "") {
+    if (token === true) {
       window.location.reload()
       navigate("/")
     }
@@ -72,7 +72,7 @@ const Signup = () => {
 
   function signuphandler() {
     signup(credentials.name, credentials.email, credentials.password, credentials.contactno)
-
+    navigate("/")
   }
 
 

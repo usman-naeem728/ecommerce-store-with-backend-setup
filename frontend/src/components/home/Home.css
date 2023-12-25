@@ -1,324 +1,284 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 
 body {
-    font-family: 'Poppins', sans-serif;
-    padding: 0;
-    margin: 0
-}
-
-.top-header {
-    display: flex;
-    width: 100%;
-    height: 48px;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-    background-color: black;
-    color: white;
-}
-
-.header-text {
-    font-family: Poppins;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 21px;
-}
-
-.nav {
-    display: flex;
-    width: 100%;
-    border-bottom: 1px solid rgb(199, 199, 199);
-    align-items: center;
-    justify-content: space-around;
-}
-
-.nav .logo {
-    display: flex;
-    width: 20%;
-    justify-content: center;
-}
-
-.nav .nav-btns {
-    width: 40%;
-}
-
-.nav .nav-btns ul {
-    display: flex;
-    list-style: none;
-    width: 100%;
-    justify-content: space-around;
-}
-
-.nav .nav-btns ul li:hover {
-    cursor: pointer;
-    color: rgb(0, 17, 255);
-}
-
-.nav .nav-icons {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    width: 30%;
-}
-
-.nav .nav-icons .search {
-    display: flex;
-    padding: 7px 12px 7px 20px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    background: var(--Secondary, #F5F5F5);
-    border-radius: 4px;
-}
-
-.nav .nav-icons .search input {
-    background: transparent;
-    border: none;
-    outline: none;
-}
-
-.nav .nav-icons .search input::placeholder {
-    font-family: 'Poppins', sans-serif;
-    font-size: 12px;
+  font-family: 'Poppins', sans-serif;
+  padding: 0;
+  margin: 0
 }
 
 /* top header section end */
 .hero-sec {
-    display: flex;
-    width: 100%;
-    /* border: 1px solid red; */
-    justify-content: space-between;
+  display: flex;
+  width: 100%;
+  /* border: 1px solid red; */
+  justify-content: space-between;
 }
 
 .hero-menu {
-    display: flex;
-    justify-content: center;
-    width: 20%;
-    border-right: 1px solid rgb(184, 184, 184);
+  display: flex;
+  justify-content: center;
+  width: 20%;
+  border-right: 1px solid rgb(184, 184, 184);
 }
 
 .hero-menu ul {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
 }
 
 .hero-menu ul> :nth-child(1) {
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* targeting second child of ul that is "men;s fashion" */
 .hero-menu ul> :nth-child(2) {
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* targeting second child of ul that is "men;s fashion" when drop down is open of first child that is "women fashion" */
 .hero-menu ul> :nth-child(3) {
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
 }
 
 .hero-sec .image-slider img {
-    width: 90%;
-    height: 352px;
-    flex-shrink: 0;
+  width: 90%;
+  height: 352px;
+  flex-shrink: 0;
 }
 
 /* Styles for the ImageSlider component */
 .image-slider {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    /* Adjust max-width as needed */
-    margin: auto;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  /* Adjust max-width as needed */
+  margin: auto;
+  overflow: hidden;
 }
 
 .image-slider img {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 
 /* Navigation buttons styling */
 .image-slider button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
-    background: transparent;
-    border: none;
-    color: white;
-    cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 
 .image-slider button:first-child {
-    left: 10px;
+  left: 10px;
 }
 
 .image-slider button:last-child {
-    right: 10px;
+  right: 10px;
 }
 
 /* hero section end  */
 
-.productSlider{
-    display: flex;
-    justify-content: center;
-    margin-top: 5%;
+.productSlider {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  margin-left: -6%;
 }
+
 .productSlider .productHeading {
-    display: flex;
-    justify-content:space-around;
-    align-items:flex-start;
-    width: 10%;
-    color: #DB4444;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 10%;
+  color: #DB4444;
 }
 
-.productSlider .productHeading .box{
-    background-color: #DB4444;
-    height: 25px;
-    width: 13px;
-    border-radius: 20%;
+.productSlider .productHeading .box {
+  background-color: #DB4444;
+  height: 25px;
+  width: 13px;
+  border-radius: 20%;
 }
+
 .wrapper {
-    max-width: 1100px;
-    width: 100%;
-    position: relative;
-  }
-  .wrapper i {
-    top: 50%;
-    height: 50px;
-    width: 50px;
-    cursor: pointer;
-    font-size: 1.25rem;
-    position: absolute;
-    text-align: center;
-    line-height: 50px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.23);
-    transform: translateY(-50%);
-    transition: transform 0.1s linear;
-  }
-  .wrapper i:active{
-    transform: translateY(-50%) scale(0.85);
-  }
-  .wrapper i:first-child{
-    left: -22px;
-  }
-  .wrapper i:last-child{
-    right: -22px;
-  }
-  .wrapper .carousel{
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: calc((100% / 3) - 12px);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 16px;
-    border-radius: 8px;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-  }
-  .carousel::-webkit-scrollbar {
-    display: none;
-  }
-  .carousel.no-transition {
-    scroll-behavior: auto;
-  }
-  .carousel.dragging {
-    scroll-snap-type: none;
-    scroll-behavior: auto;
-  }
-  .carousel.dragging .card {
-    cursor: grab;
-    user-select: none;
-  }
-  .carousel :where(.card, .img) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .carousel .card {
-    scroll-snap-align: start;
-    height: 342px;
-    list-style: none;
-    background: #fff;
-    cursor: pointer;
-    padding-bottom: 15px;
-    flex-direction: column;
-    border-radius: 8px;
-  }
-  .carousel .card .img {
-    background: #8B53FF;
-    height: 148px;
-    width: 148px;
-    border-radius: 50%;
-  }
-  .card .img img {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #fff;
-  }
-  .carousel .card h2 {
-    font-weight: 500;
-    font-size: 1.56rem;
-    margin: 30px 0 5px;
-  }
-  .carousel .card button {
-    border: none;
-    cursor: pointer;
-    width: 25%;
-    height: 8%;
-    border-radius: 20px;
-    color: white;
-    background-color: #DB4444;
-  }
+  max-width: 1100px;
+  width: 100%;
+  position: relative;
+}
 
-  
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Set a higher z-index to cover other components */
+.wrapper i {
+  top: 50%;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  font-size: 1.25rem;
+  position: absolute;
+  text-align: center;
+  line-height: 50px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23);
+  transform: translateY(-50%);
+  transition: transform 0.1s linear;
+}
+
+.wrapper i:active {
+  transform: translateY(-50%) scale(0.85);
+}
+
+.wrapper i:first-child {
+  left: -22px;
+}
+
+.wrapper i:last-child {
+  right: -22px;
+}
+
+.wrapper .carousel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% / 3) - 12px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* gap: 16px; */
+  border-radius: 8px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel.no-transition {
+  scroll-behavior: auto;
+}
+
+.carousel.dragging {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+
+.carousel.dragging .card {
+  cursor: grab;
+  user-select: none;
+}
+
+.carousel :where(.card, .img) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel .card {
+  display: flex;
+  align-items: start;
+  /* scroll-snap-align: start; */
+  height: 342px;
+  list-style: none;
+  background: #fff;
+  cursor: pointer;
+  padding-bottom: 15px;
+  flex-direction: column;
+  border-radius: 8px;
+}
+
+.carousel .card .img {
+  height: 188px;
+  width: 168px;
+}
+
+.card .img img {
+  width: 180px;
+  height: 160px;
+  object-fit: cover;
+  border: 4px solid #fff;
+}
+
+.carousel .card span {
+  font-size: 13px;
+  position: relative;
+  float: left;
+}
+
+.carousel .card .productName {
+  font-weight: 900;
+}
+
+.carousel .card .productPrice {
+  font-weight: 900;
+  color: red;
+}
+
+.carousel .card button {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  position: relative;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  height: 8%;
+  color: white;
+  background-color: #DB4444;
+  bottom: 90px;
+}
+
+.carousel .card:hover button {
+  opacity: 1;
+}
+
+
+@media screen and (max-width: 900px) {
+  .wrapper .carousel {
+    grid-auto-columns: calc((100% / 2) - 9px);
   }
-  
-  .modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    position: relative;
-    z-index: 2000; /* Set a z-index higher than the overlay */
+}
+
+@media screen and (max-width: 600px) {
+  .wrapper .carousel {
+    grid-auto-columns: 100%;
   }
-  
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  @media screen and (max-width: 900px) {
-    .wrapper .carousel {
-      grid-auto-columns: calc((100% / 2) - 9px);
-    }
-  }
-  @media screen and (max-width: 600px) {
-    .wrapper .carousel {
-      grid-auto-columns: 100%;
-    }
-  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  /* Set a higher z-index to cover other components */
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  z-index: 2000;
+  /* Set a z-index higher than the overlay */
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}

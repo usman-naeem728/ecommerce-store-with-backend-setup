@@ -5,11 +5,45 @@ import Navbar from '../navbar/Navbar';
 import image from '../assets/imageslider.jpg'
 import image1 from '../assets/imageslider1.jpg';
 import image2 from '../assets/imageslider2.jpg';
-// import Modal from '../modal/modal';
+import { Link } from 'react-router-dom';
 
 
-const Home = () => {
-    const context = useContext(userContext);
+
+const Home = (props) => {
+    const context = useContext(userContext)
+
+   
+    const [imageDataUrl, setImageDataUrl] = useState(null);
+
+
+    const sendProductdetail = (name, price, description, productImage) => {
+
+        const canvas = document.createElement('canvas');
+        const imageContext = canvas.getContext('2d');
+
+        const image = new Image();
+        image.src = productImage;
+
+        image.onload = () => {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            imageContext.drawImage(image, 0, 0, image.width, image.height);
+
+            // Convert the canvas content to a data URL
+            const dataUrl = canvas.toDataURL('image/jpeg');
+            setImageDataUrl(dataUrl);
+
+            // Save the data URL to localStorage
+            localStorage.setItem('savedImage', dataUrl);
+        };
+        props.getProductdetails(name, price, description, imageDataUrl);
+    }
+
+    // sending props to app.js
+
+
+
+    // add to cart functionality 
     const { addCartpdt } = context;
     const [modalDetails, setModalDetail] = useState({
         productname: "",
@@ -18,13 +52,26 @@ const Home = () => {
     const [quantity, setQuantity] = useState(1);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-
-    // Handler function for the onChange event
+    // for quantity 
     const handleDropdownChange = (event) => {
         // Update the state with the selected value
         setQuantity(event.target.value);
     };
+    const openModal = (name, price) => {
+        setModalDetail({ productname: name, price: price })
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    //sending data to database
+    const handleClick = () => {
+        addCartpdt(modalDetails.productname, modalDetails.price, quantity);
+        closeModal()
+    }
+
     //navbar dropdown
     const [isopenWdropsown, setIsopenWdropdown] = useState(false);
     const [isopenMdropsown, setIsopenMdropdown] = useState(false);
@@ -39,22 +86,29 @@ const Home = () => {
     ];
     //navbar dropdown ends
 
-    //sending data to database
-    const handleClick = () => {
-        addCartpdt(modalDetails.productname, modalDetails.price, quantity);
-        closeModal()
-    }
-
-
-    const openModal = (name, price) => {
-        setModalDetail({ productname: name, price: price })
-        setIsModalOpen(true);
+    // hero section product slider
+    const nextImage = () => {
+        setCurrentImageIndex((prevIndex) =>
+            prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        );
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
+    const prevImage = () => {
+        setCurrentImageIndex((prevIndex) =>
+            prevIndex === 0 ? images.length - 1 : prevIndex - 1
+        );
     };
+    useEffect(() => {
+        autoPlay();
+        const interval = setInterval(() => {
+            nextImage();
+        }, 3000); // Change image every 5 seconds
+       
 
+        // Clear interval on component unmount
+        return () => clearInterval(interval);
+    }, []);
+    // hero section product slider ends 
 
     // code for product slider starts
     const wrapperRef = useRef(null);
@@ -117,31 +171,15 @@ const Home = () => {
     // code for prodcut slider ends 
 
 
-    const nextImage = () => {
-        setCurrentImageIndex((prevIndex) =>
-            prevIndex === images.length - 1 ? 0 : prevIndex + 1
-        );
-    };
-
-    const prevImage = () => {
-        setCurrentImageIndex((prevIndex) =>
-            prevIndex === 0 ? images.length - 1 : prevIndex - 1
-        );
-    };
-    useEffect(() => {
-        autoPlay();
-        const interval = setInterval(() => {
-            nextImage();
-        }, 3000); // Change image every 5 seconds
-
-        // Clear interval on component unmount
-        return () => clearInterval(interval);
-    }, []);
 
     return (
         <>
             <Navbar />
+
+
             <div className='hero-sec'>
+
+                {/* hero section menu  */}
                 <div className='hero-menu'>
                     <ul>
                         <li>Woman’s Fashion
@@ -181,15 +219,19 @@ const Home = () => {
                         <li>Home & Lifestyle</li>
                     </ul>
                 </div>
+                {/* hero section menu ends  */}
+
+                {/* hero section slider  */}
                 <div className="image-slider">
                     {/* <button onClick={prevImage}>Previous</button> */}
                     <img className='slideImg' src={images[currentImageIndex]} alt={`Slide ${currentImageIndex + 1}`} />
                     {/* <button onClick={nextImage}>Next</button> */}
                 </div>
             </div>
-
             {/* hero section ends */}
+
             <div>
+                {/* modal open for add to cart  */}
                 {isModalOpen && (
                     <div className="modal-overlay">
                         <div className="modal-content">
@@ -241,35 +283,52 @@ const Home = () => {
                     >
                         <li className="card">
                             <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <h2>Men’s shalwar kameez</h2>
-                            <h3>2000</h3>
+                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar kameez", 2000, "very beautifull", images[0])} >
+                                <span className='productName'>Men’s shalwar kameez</span>
+                            </Link>
+                            <span className='productPrice'>2000</span>
                             <button onClick={() => openModal("Men's shalwar kameez", 2000)} >Add to Cart</button>
                         </li>
                         <li className="card">
                             <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <h2>Joenas Brauers</h2>
+                            <Link to={'../productdetail'} onClick={() => sendProductdetail("fgfdgdfg", 3000, "very beautifull", images[0])}>
+                                <span className='productName'>Joenas Brauers</span>
+                            </Link>
+                            <span className='productPrice'>2000</span>
                             <button>Add to cart</button>
                         </li>
                         <li className="card">
                             <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <h2>Lariach French</h2>
+                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's  kameez", 1000, "very beautifull", images[0])}>
+                                <span className='productName'>Lariach French</span>
+                            </Link>
+                            <span className='productPrice'>2000</span>
                             <button>Add to cart</button>
                         </li>
                         <li className="card">
                             <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <h2>James Khosravi</h2>
-                            <button>Add to cart</button>
-                        </li>
-                        {/* <li className="card">
-                            <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <h2>Kristina Zasiadko</h2>
+                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar ", 500, "very beautifull", images[0])}>
+                                <span className='productName'>James Khosravi</span>
+                            </Link>
+                            <span className='productPrice'>2000</span>
                             <button>Add to cart</button>
                         </li>
                         <li className="card">
                             <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <h2>Donald Horton</h2>
+                            <Link to={'../productdetail'} onClick={() => sendProductdetail("'s shalwar kameez", 2000, "very beautifull", images[0])}>
+                                <span className='productName'>Kristina Zasiadko</span>
+                            </Link>
+                            <span className='productPrice'>2000</span>
                             <button>Add to cart</button>
-                        </li> */}
+                        </li>
+                        <li className="card">
+                            <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
+                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar kameez", 2000, "very ", images[0])}>
+                                <span className='productName'>Donald Horton</span>
+                            </Link>
+                            <span className='productPrice'>2000</span>
+                            <button>Add to cart</button>
+                        </li>
                     </ul>
                     <i id="right" className="fa-solid fa-angle-right" onClick={() => handleArrowButtonClick('right')}></i>
                 </div>
