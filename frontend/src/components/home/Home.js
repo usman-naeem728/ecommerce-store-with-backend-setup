@@ -5,6 +5,7 @@ import Navbar from '../navbar/Navbar';
 import image from '../assets/imageslider.jpg'
 import image1 from '../assets/imageslider1.jpg';
 import image2 from '../assets/imageslider2.jpg';
+import image3 from '../assets/image1.png'
 import { Link } from 'react-router-dom';
 
 
@@ -12,7 +13,7 @@ import { Link } from 'react-router-dom';
 const Home = (props) => {
     const context = useContext(userContext)
 
-   
+
     const [imageDataUrl, setImageDataUrl] = useState(null);
 
 
@@ -49,21 +50,20 @@ const Home = (props) => {
         productname: "",
         price: 0
     })
-    const [quantity, setQuantity] = useState(1);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // for quantity 
-    const handleDropdownChange = (event) => {
-        // Update the state with the selected value
-        setQuantity(event.target.value);
-    };
     const openModal = (name, price) => {
         setModalDetail({ productname: name, price: price })
         setIsModalOpen(true);
     };
-
     const closeModal = () => {
         setIsModalOpen(false);
+    };
+
+    // for quantity 
+    const [quantity, setQuantity] = useState(1);
+    const handleDropdownChange = (event) => {
+        // Update the state with the selected value
+        setQuantity(event.target.value);
     };
 
     //sending data to database
@@ -79,23 +79,24 @@ const Home = (props) => {
 
     const wfashionOptions = ['Option 1', 'Option 2', 'Option 3'];
     const mfashionOptions = ['Option 1', 'Option 2', 'Option 3'];
-    const images = [
+
+    //navbar dropdown ends
+
+    // hero section product slider
+    const heroImages = [
         image,
         image1,
         image2
     ];
-    //navbar dropdown ends
-
-    // hero section product slider
     const nextImage = () => {
         setCurrentImageIndex((prevIndex) =>
-            prevIndex === images.length - 1 ? 0 : prevIndex + 1
+            prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
         );
     };
 
     const prevImage = () => {
         setCurrentImageIndex((prevIndex) =>
-            prevIndex === 0 ? images.length - 1 : prevIndex - 1
+            prevIndex === 0 ? heroImages.length - 1 : prevIndex - 1
         );
     };
     useEffect(() => {
@@ -103,7 +104,7 @@ const Home = (props) => {
         const interval = setInterval(() => {
             nextImage();
         }, 3000); // Change image every 5 seconds
-       
+
 
         // Clear interval on component unmount
         return () => clearInterval(interval);
@@ -118,7 +119,12 @@ const Home = (props) => {
     const [startScrollLeft, setStartScrollLeft] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
     const [isAutoPlay, setIsAutoPlay] = useState(true);
-
+    const images = [
+        image,
+        image1,
+        image2,
+        image3
+    ];
     const firstCardWidth = carouselRef.current?.querySelector('.card')?.offsetWidth || 0;
 
 
@@ -224,7 +230,7 @@ const Home = (props) => {
                 {/* hero section slider  */}
                 <div className="image-slider">
                     {/* <button onClick={prevImage}>Previous</button> */}
-                    <img className='slideImg' src={images[currentImageIndex]} alt={`Slide ${currentImageIndex + 1}`} />
+                    <img className='slideImg' src={heroImages[currentImageIndex]} alt={`Slide ${currentImageIndex + 1}`} />
                     {/* <button onClick={nextImage}>Next</button> */}
                 </div>
             </div>
@@ -282,7 +288,7 @@ const Home = (props) => {
                         onScroll={infiniteScroll}
                     >
                         <li className="card">
-                            <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
+                            <div className="img"><img src={images[3]} alt="img" draggable="false" /></div>
                             <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar kameez", 2000, "very beautifull", images[0])} >
                                 <span className='productName'>Men’s shalwar kameez</span>
                             </Link>

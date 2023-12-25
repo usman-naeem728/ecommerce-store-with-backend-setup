@@ -197,14 +197,15 @@ body {
 
 .carousel .card .img {
   height: 188px;
-  width: 168px;
+  width: 50%;
+  background-color: antiquewhite;
 }
 
 .card .img img {
-  width: 180px;
-  height: 160px;
+  width: 140px;
+  height: 120px;
   object-fit: cover;
-  border: 4px solid #fff;
+  flex-shrink: 0;
 }
 
 .carousel .card span {
