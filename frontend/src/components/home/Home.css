@@ -47,25 +47,69 @@ body {
   justify-content: space-between;
 }
 
-.hero-sec .image-slider img {
-  width: 90%;
-  height: 352px;
-  flex-shrink: 0;
-}
+
 
 /* Styles for the ImageSlider component */
 .image-slider {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  /* Adjust max-width as needed */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 75%;
   margin: auto;
   overflow: hidden;
+}
+
+.black {
+  background: black;
+
+}
+
+.hero-sec .image-slider img {
+  width: 40%;
+  flex-shrink: 0;
 }
 
 .image-slider img {
   width: 100%;
   height: auto;
+}
+
+.image-slider .heroimgText {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  color: white;
+  left: 30%;
+  top: 16%;
+  width: 20%;
+  font-size: 15px;
+}
+
+.image-slider .heroText2 {
+  position: absolute;
+  color: white;
+  left: 33%;
+  top: 28%;
+  width: 20%;
+  font-size: 40px;
+}
+
+.image-slider .herolink {
+  position: absolute;
+  left: 33%;
+  top: 45%;
+  width: 20%;
+  font-size: 15px;
+}
+
+.image-slider .herolink a {
+  color: white;
+}
+
+.image-slider .heroimgText img {
+  max-width: 14%;
 }
 
 /* Navigation buttons styling */
@@ -197,7 +241,7 @@ body {
 
 .carousel .card .img {
   height: 188px;
-  width: 50%;
+  width: 60%;
   background-color: antiquewhite;
 }
 

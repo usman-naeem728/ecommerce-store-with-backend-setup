@@ -2,10 +2,11 @@ import React, { useRef, useState, useEffect, useContext } from 'react';
 import userContext from '../../context/userContext';
 import './Home.css';
 import Navbar from '../navbar/Navbar';
-import image from '../assets/imageslider.jpg'
-import image1 from '../assets/imageslider1.jpg';
-import image2 from '../assets/imageslider2.jpg';
-import image3 from '../assets/image1.png'
+import image from '../assets/imageslider.png';
+import image1 from '../assets/imageslider1.png';
+import image3 from '../assets/image1.png';
+import image4 from '../assets/heroimg.png';
+import applelogo from '../assets/applelogo.png'
 import { Link } from 'react-router-dom';
 
 
@@ -75,7 +76,6 @@ const Home = (props) => {
     //navbar dropdown
     const [isopenWdropsown, setIsopenWdropdown] = useState(false);
     const [isopenMdropsown, setIsopenMdropdown] = useState(false);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const wfashionOptions = ['Option 1', 'Option 2', 'Option 3'];
     const mfashionOptions = ['Option 1', 'Option 2', 'Option 3'];
@@ -83,11 +83,13 @@ const Home = (props) => {
     //navbar dropdown ends
 
     // hero section product slider
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const heroImages = [
-        image,
+        image4,
         image1,
-        image2
+        image
     ];
+
     const nextImage = () => {
         setCurrentImageIndex((prevIndex) =>
             prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
@@ -120,9 +122,6 @@ const Home = (props) => {
     const [timeoutId, setTimeoutId] = useState(null);
     const [isAutoPlay, setIsAutoPlay] = useState(true);
     const images = [
-        image,
-        image1,
-        image2,
         image3
     ];
     const firstCardWidth = carouselRef.current?.querySelector('.card')?.offsetWidth || 0;
@@ -177,14 +176,12 @@ const Home = (props) => {
     // code for prodcut slider ends 
 
 
-
     return (
         <>
             <Navbar />
 
 
             <div className='hero-sec'>
-
                 {/* hero section menu  */}
                 <div className='hero-menu'>
                     <ul>
@@ -228,51 +225,67 @@ const Home = (props) => {
                 {/* hero section menu ends  */}
 
                 {/* hero section slider  */}
-                <div className="image-slider">
+                <div className={currentImageIndex === 0 ? `image-slider black` : `image-Slider`}>
+                    {currentImageIndex === 0 &&
+                        <>
+                            <div className="heroimgText">
+                                <img src={applelogo} />
+                                <span className='heroText1'>iPhone 14 Series</span>
+                            </div>
+                            <div className='heroText2'>
+                                <span>Up to 10% off Voucher</span>
+                            </div>
+                            <div className='herolink'>
+                                <a href='#' >Read More  &rarr;</a>
+                            </div>
+                        </>
+                    }
                     {/* <button onClick={prevImage}>Previous</button> */}
                     <img className='slideImg' src={heroImages[currentImageIndex]} alt={`Slide ${currentImageIndex + 1}`} />
                     {/* <button onClick={nextImage}>Next</button> */}
                 </div>
-            </div>
+            </div >
             {/* hero section ends */}
 
-            <div>
+            < div >
                 {/* modal open for add to cart  */}
-                {isModalOpen && (
-                    <div className="modal-overlay">
-                        <div className="modal-content">
-                            <span className="close-btn" onClick={closeModal}>
-                                &times;
-                            </span>
-                            {/* Content of your modal goes here */}
-                            <form>
-                                <label>
-                                    <b>PRODUCT:</b> {modalDetails.productname}
-                                </label>
-                                <br />
-                                <label>
-                                    <b>PRICE:</b> {modalDetails.price}
-                                </label>
-                                <br />
-                                <br />
-                                <label htmlFor="myDropdown">Quantity:</label>
-                                {/* Dropdown with onChange handler */}
-                                <select id="myDropdown" value={quantity} onChange={handleDropdownChange}>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
+                {
+                    isModalOpen && (
+                        <div className="modal-overlay">
+                            <div className="modal-content">
+                                <span className="close-btn" onClick={closeModal}>
+                                    &times;
+                                </span>
+                                {/* Content of your modal goes here */}
+                                <form>
+                                    <label>
+                                        <b>PRODUCT:</b> {modalDetails.productname}
+                                    </label>
+                                    <br />
+                                    <label>
+                                        <b>PRICE:</b> {modalDetails.price}
+                                    </label>
+                                    <br />
+                                    <br />
+                                    <label htmlFor="myDropdown">Quantity:</label>
+                                    {/* Dropdown with onChange handler */}
+                                    <select id="myDropdown" value={quantity} onChange={handleDropdownChange}>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
 
-                                {/* Display the selected value */}
-                                <p><b>TOTAL PRICE:</b> {quantity * modalDetails.price}</p>
-                                <br />
-                                <button type="submit" onClick={handleClick}>Add to Cart</button>
+                                    {/* Display the selected value */}
+                                    <p><b>TOTAL PRICE:</b> {quantity * modalDetails.price}</p>
+                                    <br />
+                                    <button type="submit" onClick={handleClick}>Add to Cart</button>
 
-                            </form>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                )}
-            </div>
+                    )
+                }
+            </div >
 
             <div className='productSlider'>
                 <div className='productHeading'>
@@ -288,7 +301,7 @@ const Home = (props) => {
                         onScroll={infiniteScroll}
                     >
                         <li className="card">
-                            <div className="img"><img src={images[3]} alt="img" draggable="false" /></div>
+                            <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
                             <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar kameez", 2000, "very beautifull", images[0])} >
                                 <span className='productName'>Men’s shalwar kameez</span>
                             </Link>
