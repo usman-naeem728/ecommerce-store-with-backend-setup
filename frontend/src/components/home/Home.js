@@ -3,10 +3,13 @@ import userContext from '../../context/userContext';
 import './Home.css';
 import Navbar from '../navbar/Navbar';
 import image from '../assets/imageslider.png';
-import image1 from '../assets/imageslider1.png';
 import image3 from '../assets/image1.png';
 import image4 from '../assets/heroimg.png';
-import applelogo from '../assets/applelogo.png'
+import wishlistIcon from '../assets/whishlistIcon.png';
+import cartIcon from '../assets/Cart1.png';
+import arrowleft from '../assets/arrowLeft.png';
+import arrowright from '../assets/arrowRight.png';
+import Toast from '../toastNotification/Toast';
 import { Link } from 'react-router-dom';
 
 
@@ -14,6 +17,13 @@ import { Link } from 'react-router-dom';
 const Home = (props) => {
     const context = useContext(userContext)
 
+    //creating toast msg
+    const [showNotification,setshowNotification] = useState(false)
+    const [notificationMsg,setNotificationmsg] = useState({
+        msg:"",
+        type: ""
+    })
+    
 
     const [imageDataUrl, setImageDataUrl] = useState(null);
 
@@ -46,7 +56,7 @@ const Home = (props) => {
 
 
     // add to cart functionality 
-    const { addCartpdt } = context;
+    const { addCartpdt, error } = context;
     const [modalDetails, setModalDetail] = useState({
         productname: "",
         price: 0
@@ -68,9 +78,35 @@ const Home = (props) => {
     };
 
     //sending data to database
-    const handleClick = () => {
-        addCartpdt(modalDetails.productname, modalDetails.price, quantity);
-        closeModal()
+
+    const handleClick = async (event) => {
+        event.preventDefault();
+        //handling error in try catch
+        try {
+            // Assuming addCartpdt returns a promise
+            await addCartpdt(modalDetails.productname, modalDetails.price, quantity);
+            console.log('Promise resolved successfully'); // This will be executed if the promise resolves
+            setshowNotification(!showNotification)
+            setNotificationmsg({
+                msg:"Added to cart successfully",
+                type:'success'
+            })
+            setTimeout(() => {
+                setshowNotification(false)
+            }, 3000);
+        } catch (error) {
+            setshowNotification(!showNotification)
+            setNotificationmsg({
+                msg:"Internal Server error",
+                type:'error'
+            })
+            setTimeout(() => {
+                setshowNotification(false)
+            }, 3000);
+            console.log('Promise rejected:', error); // This will be executed if the promise is rejected
+        }
+        closeModal();
+
     }
 
     //navbar dropdown
@@ -86,7 +122,6 @@ const Home = (props) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const heroImages = [
         image4,
-        image1,
         image
     ];
 
@@ -105,7 +140,7 @@ const Home = (props) => {
         autoPlay();
         const interval = setInterval(() => {
             nextImage();
-        }, 3000); // Change image every 5 seconds
+        }, 4000); // Change image every 5 seconds
 
 
         // Clear interval on component unmount
@@ -179,8 +214,8 @@ const Home = (props) => {
     return (
         <>
             <Navbar />
-
-
+            {showNotification && <Toast msg={notificationMsg.msg} type={notificationMsg.type} />}
+            {/* <Toast text={"this is text"} /> */}
             <div className='hero-sec'>
                 {/* hero section menu  */}
                 <div className='hero-menu'>
@@ -225,23 +260,10 @@ const Home = (props) => {
                 {/* hero section menu ends  */}
 
                 {/* hero section slider  */}
-                <div className={currentImageIndex === 0 ? `image-slider black` : `image-Slider`}>
-                    {currentImageIndex === 0 &&
-                        <>
-                            <div className="heroimgText">
-                                <img src={applelogo} />
-                                <span className='heroText1'>iPhone 14 Series</span>
-                            </div>
-                            <div className='heroText2'>
-                                <span>Up to 10% off Voucher</span>
-                            </div>
-                            <div className='herolink'>
-                                <a href='#' >Read More  &rarr;</a>
-                            </div>
-                        </>
-                    }
+                <div className='image-slider'>
+
                     {/* <button onClick={prevImage}>Previous</button> */}
-                    <img className='slideImg' src={heroImages[currentImageIndex]} alt={`Slide ${currentImageIndex + 1}`} />
+                    <img src={heroImages[currentImageIndex]} alt={`Slide ${currentImageIndex + 1}`} />
                     {/* <button onClick={nextImage}>Next</button> */}
                 </div>
             </div >
@@ -291,8 +313,13 @@ const Home = (props) => {
                 <div className='productHeading'>
                     <span className='box'></span><span>New ARRIVALS</span>
                 </div>
+                <div className='leftBtn' onClick={() => handleArrowButtonClick('left')}>
+                    <img src={arrowleft} />
+                </div>
+                <div className='rightBtn' onClick={() => handleArrowButtonClick('right')} >
+                    <img src={arrowright} />
+                </div>
                 <div className="wrapper" ref={wrapperRef}>
-                    <i id="left" className="fa-solid fa-angle-left" onClick={() => handleArrowButtonClick('left')}></i>
                     <ul className="carousel"
                         ref={carouselRef}
                         onMouseDown={dragStart}
@@ -301,57 +328,71 @@ const Home = (props) => {
                         onScroll={infiniteScroll}
                     >
                         <li className="card">
-                            <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
                             <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar kameez", 2000, "very beautifull", images[0])} >
-                                <span className='productName'>Men’s shalwar kameez</span>
+                                <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
+                                <span className='productName'>HAVIT HV-G92 Gamepad</span>
                             </Link>
                             <span className='productPrice'>2000</span>
-                            <button onClick={() => openModal("Men's shalwar kameez", 2000)} >Add to Cart</button>
+                            <button className='buyBtn' >Buy now</button>
+                            <button className='wishBtn' ><img src={wishlistIcon} /></button>
+                            <button className='cartBtn' onClick={() => openModal("Men's shalwar kameez", 2000)}  ><img src={cartIcon} /></button>
                         </li>
                         <li className="card">
-                            <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <Link to={'../productdetail'} onClick={() => sendProductdetail("fgfdgdfg", 3000, "very beautifull", images[0])}>
-                                <span className='productName'>Joenas Brauers</span>
+                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar kameez", 2000, "very beautifull", images[0])} >
+                                <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
+                                <span className='productName'>HAVIT HV-G92 Gamepad</span>
                             </Link>
                             <span className='productPrice'>2000</span>
-                            <button>Add to cart</button>
+                            <button className='buyBtn' >Buy now</button>
+                            <button className='wishBtn' ><img src={wishlistIcon} /></button>
+                            <button className='cartBtn' onClick={() => openModal("Men's shalwar kameez", 2000)}  ><img src={cartIcon} /></button>
                         </li>
                         <li className="card">
-                            <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's  kameez", 1000, "very beautifull", images[0])}>
-                                <span className='productName'>Lariach French</span>
+                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar kameez", 2000, "very beautifull", images[0])} >
+                                <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
+                                <span className='productName'>HAVIT HV-G92 Gamepad</span>
                             </Link>
                             <span className='productPrice'>2000</span>
-                            <button>Add to cart</button>
+                            <button className='buyBtn' >Buy now</button>
+                            <button className='wishBtn' ><img src={wishlistIcon} /></button>
+                            <button className='cartBtn' onClick={() => openModal("Men's shalwar kameez", 2000)}  ><img src={cartIcon} /></button>
                         </li>
                         <li className="card">
-                            <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar ", 500, "very beautifull", images[0])}>
-                                <span className='productName'>James Khosravi</span>
+                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar kameez", 2000, "very beautifull", images[0])} >
+                                <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
+                                <span className='productName'>HAVIT HV-G92 Gamepad</span>
                             </Link>
                             <span className='productPrice'>2000</span>
-                            <button>Add to cart</button>
+                            <button className='buyBtn' >Buy now</button>
+                            <button className='wishBtn' ><img src={wishlistIcon} /></button>
+                            <button className='cartBtn' onClick={() => openModal("Men's shalwar kameez", 2000)}  ><img src={cartIcon} /></button>
                         </li>
                         <li className="card">
-                            <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <Link to={'../productdetail'} onClick={() => sendProductdetail("'s shalwar kameez", 2000, "very beautifull", images[0])}>
-                                <span className='productName'>Kristina Zasiadko</span>
+                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar kameez", 2000, "very beautifull", images[0])} >
+                                <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
+                                <span className='productName'>HAVIT HV-G92 Gamepad</span>
                             </Link>
                             <span className='productPrice'>2000</span>
-                            <button>Add to cart</button>
+                            <button className='buyBtn' >Buy now</button>
+                            <button className='wishBtn' ><img src={wishlistIcon} /></button>
+                            <button className='cartBtn' onClick={() => openModal("Men's shalwar kameez", 2000)}  ><img src={cartIcon} /></button>
                         </li>
                         <li className="card">
-                            <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
-                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar kameez", 2000, "very ", images[0])}>
-                                <span className='productName'>Donald Horton</span>
+                            <Link to={'../productdetail'} onClick={() => sendProductdetail("Men's shalwar kameez", 2000, "very beautifull", images[0])} >
+                                <div className="img"><img src={images[0]} alt="img" draggable="false" /></div>
+                                <span className='productName'>HAVIT HV-G92 Gamepad</span>
                             </Link>
                             <span className='productPrice'>2000</span>
-                            <button>Add to cart</button>
+                            <button className='buyBtn' >Buy now</button>
+                            <button className='wishBtn' ><img src={wishlistIcon} /></button>
+                            <button className='cartBtn' onClick={() => openModal("Men's shalwar kameez", 2000)}  ><img src={cartIcon} /></button>
                         </li>
                     </ul>
-                    <i id="right" className="fa-solid fa-angle-right" onClick={() => handleArrowButtonClick('right')}></i>
-                </div>
 
+                </div>
+                <div className='allProducts'>
+                    <button>View All Products</button>
+                </div>
             </div>
         </>
     )

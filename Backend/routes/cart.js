@@ -6,8 +6,13 @@ const { body, validationResult } = require('express-validator')
 
 //Route1 get all products in cart
 router.get('/fetchallcartproducts', fetchUser, async (req, res) => {
-    const product = await Product.find({ user: req.user.id });
-    res.json(product)
+    try {
+        const product = await Product.find({ user: req.user.id });
+        res.json(product)
+    } catch (error) {
+        console.error('Error fetching cart products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 })
 
 //Router 2 adding products in cart
@@ -16,28 +21,33 @@ router.post('/addcartproduct', fetchUser, [
     body('price'),
     body('quantity')
 ], async (req, res) => {
-    const { productname, price, quantity } = req.body
+    try {
+        const { productname, price, quantity } = req.body
 
-    // if there are errors return bad request
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        // if there are errors return bad request
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const product = new Product({
+            productname, price, quantity, user: req.user.id
+        })
+
+        const addProduct = await product.save()
+        res.send(addProduct)
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error", message: error.message })
     }
-
-    const product = new Product({
-        productname, price, quantity, user: req.user.id
-    })
-
-    const addProduct = await product.save()
-    res.send(addProduct)
 
 })
 
 
 // Route 3 : updating quantity exsiting product in cart 
 router.put('/updatecartquantity/:id', fetchUser, async (req, res) => {
-    const { quantity } = req.body;
+
     try {
+        const { quantity } = req.body;
         // Create a newNote object
         const newCartpdt = {};
         if (quantity) { newCartpdt.quantity = quantity };
