@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
+import { Circles } from 'react-loader-spinner';
 import userContext from '../../context/userContext';
 import './Home.css';
 import Navbar from '../navbar/Navbar';
@@ -10,20 +11,21 @@ import cartIcon from '../assets/Cart1.png';
 import arrowleft from '../assets/arrowLeft.png';
 import arrowright from '../assets/arrowRight.png';
 import Toast from '../toastNotification/Toast';
+import Categories from '../categories/Categories';
 import { Link } from 'react-router-dom';
 
 
 
 const Home = (props) => {
     const context = useContext(userContext)
-
+    const [loader, setLoader] = useState(false)
     //creating toast msg
-    const [showNotification,setshowNotification] = useState(false)
-    const [notificationMsg,setNotificationmsg] = useState({
-        msg:"",
+    const [showNotification, setshowNotification] = useState(false)
+    const [notificationMsg, setNotificationmsg] = useState({
+        msg: "",
         type: ""
     })
-    
+
 
     const [imageDataUrl, setImageDataUrl] = useState(null);
 
@@ -81,15 +83,17 @@ const Home = (props) => {
 
     const handleClick = async (event) => {
         event.preventDefault();
+        setLoader(true)
         //handling error in try catch
         try {
             // Assuming addCartpdt returns a promise
             await addCartpdt(modalDetails.productname, modalDetails.price, quantity);
             console.log('Promise resolved successfully'); // This will be executed if the promise resolves
+            setLoader(false)
             setshowNotification(!showNotification)
             setNotificationmsg({
-                msg:"Added to cart successfully",
-                type:'success'
+                msg: "Added to cart successfully",
+                type: 'success'
             })
             setTimeout(() => {
                 setshowNotification(false)
@@ -97,13 +101,14 @@ const Home = (props) => {
         } catch (error) {
             setshowNotification(!showNotification)
             setNotificationmsg({
-                msg:"Internal Server error",
-                type:'error'
+                msg: "Internal Server error",
+                type: 'error'
             })
             setTimeout(() => {
                 setshowNotification(false)
             }, 3000);
             console.log('Promise rejected:', error); // This will be executed if the promise is rejected
+            setLoader(false)
         }
         closeModal();
 
@@ -214,6 +219,23 @@ const Home = (props) => {
     return (
         <>
             <Navbar />
+            {loader &&
+                <Circles
+                    height="80"
+                    width="80"
+                    color="#4fa94d"
+                    ariaLabel="circles-loading"
+                    wrapperStyle={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        zIndex: 1000, // Set the desired z-index value
+                    }}
+                    wrapperClass=""
+                    visible={true}
+                />
+            }
             {showNotification && <Toast msg={notificationMsg.msg} type={notificationMsg.type} />}
             {/* <Toast text={"this is text"} /> */}
             <div className='hero-sec'>
@@ -311,7 +333,7 @@ const Home = (props) => {
 
             <div className='productSlider'>
                 <div className='productHeading'>
-                    <span className='box'></span><span>New ARRIVALS</span>
+                    <box className='box'></box><span>New ARRIVALS</span>
                 </div>
                 <div className='leftBtn' onClick={() => handleArrowButtonClick('left')}>
                     <img src={arrowleft} />
@@ -394,6 +416,8 @@ const Home = (props) => {
                     <button>View All Products</button>
                 </div>
             </div>
+
+            <Categories/>
         </>
     )
 }
