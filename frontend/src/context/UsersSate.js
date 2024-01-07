@@ -38,19 +38,27 @@ const UserState = (props) => {
     }
     //login endpoint
     const login = async (email, password) => {
-        const response = await fetch(`${host}/api/auth/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            }, body: JSON.stringify({ email, password }),
-        });
-        const json = await response.json()
-        console.log("success", json)
-        if (!json.error) {
-            localStorage.setItem("token", json.authToken)
-            setToken(json.authToken)
-        } else {
-            setError(json.error)
+        try {
+            const response = await fetch(`${host}/api/auth/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }, body: JSON.stringify({ email, password }),
+            });
+            // if (!response.ok) {
+            //     throw new Error('Server request failed');
+            // }
+            const json = await response.json()
+            // console.log( json)
+            if (!json.error) {
+                localStorage.setItem("token", json.authToken)
+                setToken(json.authToken)
+            }else{
+                setError(json.error)
+            }
+        } catch (error) {
+            setError("internal Server error")
+            throw error
         }
     }
     // get user personal data
@@ -68,6 +76,7 @@ const UserState = (props) => {
         } catch (error) {
             // Handle the error here, you can log it or take appropriate action
             setError("Internal Server error.");
+            throw error
         }
     }
     //fetch all cart products
@@ -80,11 +89,16 @@ const UserState = (props) => {
                     "auth-token": localStorage.getItem('token')
                 },
             });
+            if (!response.ok) {
+                throw new Error('Server request failed');
+            }
             const json = await response.json()
             setCartpdt(json)
         } catch (error) {
             // Handle the error here, you can log it or take appropriate action
             setError("Internal  Server error.");
+            throw error;
+
         }
     }
 

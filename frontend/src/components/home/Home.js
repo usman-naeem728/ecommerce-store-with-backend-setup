@@ -237,7 +237,7 @@ const Home = (props) => {
                 />
             }
             {showNotification && <Toast msg={notificationMsg.msg} type={notificationMsg.type} />}
-            {/* <Toast text={"this is text"} /> */}
+            
             <div className='hero-sec'>
                 {/* hero section menu  */}
                 <div className='hero-menu'>
