@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import cloth from '../assets/cloth.png';
 import electronic from '../assets/electronic.png';
@@ -6,8 +6,10 @@ import grocery from '../assets/grocery.png';
 import beauty from '../assets/beauty.png';
 import sport from '../assets/sports.png';
 import health from '../assets/health.png';
+import 'animate.css';
 
 const Categories = () => {
+    const [animation, setAnimation] = useState(false)
     const Wrapper = styled.div`
     display: flex;
     flex-direction:column;
@@ -48,7 +50,7 @@ const Categories = () => {
     width: 13px;
     border-radius: 20%;
     `
-   
+
     return (
         <>
             <Wrapper>
@@ -57,16 +59,40 @@ const Categories = () => {
                 </HighlightedDiv>
                 <h1>Browse By Category</h1>
                 <Div>
-                    <Button category="all"><img src={cloth} /> <br /> Clothing</Button>
-                    <Button category="all"><img src={electronic} /> <br /> Electronics
+                    <Button onMouseEnter={() => {
+                        setAnimation(true);
+                    }} onMouseLeave={() => {
+                        setAnimation(false);
+                    }} className={animation && `animate__animated  animate__pulse`} category="all"><img src={cloth} /> <br /> Clothing</Button>
+                    <Button onMouseEnter={() => {
+                        setAnimation(true);
+                    }} onMouseLeave={() => {
+                        setAnimation(false);
+                    }} className={animation && `animate__animated  animate__pulse`} category="all"><img src={electronic} /> <br /> Electronics
                     </Button>
-                    <Button category="all"><img src={grocery} /> <br /> Groceries
+                    <Button onMouseEnter={() => {
+                        setAnimation(true);
+                    }} onMouseLeave={() => {
+                        setAnimation(false);
+                    }} className={animation && `animate__animated  animate__pulse`} category="all"><img src={grocery} /> <br /> Groceries
                     </Button>
-                    <Button category="all"><img src={sport} /> <br /> Sports
+                    <Button onMouseEnter={() => {
+                        setAnimation(true);
+                    }} onMouseLeave={() => {
+                        setAnimation(false);
+                    }} className={animation && `animate__animated  animate__pulse`} category="all"><img src={sport} /> <br /> Sports
                     </Button>
-                    <Button category="all"><img src={beauty} /> <br /> Beauty
+                    <Button onMouseEnter={() => {
+                        setAnimation(true);
+                    }} onMouseLeave={() => {
+                        setAnimation(false);
+                    }} className={animation && `animate__animated  animate__pulse`} category="all"><img src={beauty} /> <br /> Beauty
                     </Button>
-                    <Button category="all"><img src={health} /> <br /> Health
+                    <Button onMouseEnter={() => {
+                        setAnimation(true);
+                    }} onMouseLeave={() => {
+                        setAnimation(false);
+                    }} className={animation && `animate__animated  animate__pulse`} category="all"><img src={health} /> <br /> Health
                     </Button>
                     {/* <Button category="all">Lifestyle</Button> */}
                 </Div>

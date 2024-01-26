@@ -12,6 +12,7 @@ import arrowleft from '../assets/arrowLeft.png';
 import arrowright from '../assets/arrowRight.png';
 import Toast from '../toastNotification/Toast';
 import Categories from '../categories/Categories';
+import Banner from '../banner/Banner';
 import { Link } from 'react-router-dom';
 
 
@@ -418,6 +419,7 @@ const Home = (props) => {
             </div>
 
             <Categories/>
+            <Banner/>
         </>
     )
 }
